@@ -1,0 +1,19 @@
+{
+"name": "Bcrypt-ESP8266",
+"frameworks": "Arduino",
+"keywords": "bcrypt, crypto, cryptography, hashing, passwords, security",
+"description": "Bcrypt (secure password hashing) ported to the ESP8266 Arduino platform",
+"url": "https://github.com/TerpDAC/Bcrypt-ESP8266",
+"authors":
+[
+{
+        "name": "MicSense Team / Terrapin Development and Consulting"
+}
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/TerpDAC/Bcrypt-ESP8266"
+}
+}
+
