@@ -1,0 +1,4 @@
+Bcrypt  KEYWORD1
+gensalt KEYWORD2
+hashpw  KEYWORD2
+checkpw KEYWORD2
