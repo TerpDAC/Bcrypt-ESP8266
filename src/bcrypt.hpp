@@ -16,10 +16,6 @@
 
 #define BCRYPT_HASHSIZE	(64)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "Arduino.h"
 
 namespace Bcrypt
@@ -94,9 +90,5 @@ namespace Bcrypt
  *	}
  *
  */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

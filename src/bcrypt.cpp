@@ -19,8 +19,11 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "bcrypt.h"
-#include "crypt_blowfish/ow-crypt.h"
+#include "bcrypt.hpp"
+
+extern "C" {
+    #include "crypt_blowfish/ow-crypt.h"
+}
 
 #define RANDBYTES (16)
 
@@ -69,7 +72,6 @@ static int timing_safe_strcmp(const char *str1, const char *str2)
 
 int gensalt(int factor, char salt[BCRYPT_HASHSIZE])
 {
-	int fd;
 	char input[RANDBYTES];
 	int workf;
 	char *aux;
@@ -95,7 +97,7 @@ int checkpw(const char *passwd, const char hash[BCRYPT_HASHSIZE])
 	int ret;
 	char outhash[BCRYPT_HASHSIZE];
 
-	ret = bcrypt_hashpw(passwd, hash, outhash);
+	ret = hashpw(passwd, hash, outhash);
 	if (ret != 0)
 		return -1;
 
