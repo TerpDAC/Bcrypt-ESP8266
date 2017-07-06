@@ -20,6 +20,7 @@
 #include <errno.h>
 
 #include "bcrypt.hpp"
+#include <osapi.h>
 
 extern "C" {
     #include "crypt_blowfish/ow-crypt.h"

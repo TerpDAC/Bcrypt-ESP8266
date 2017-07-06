@@ -44,6 +44,7 @@
 
 #include "crypt_blowfish.h"
 #include "crypt_gensalt.h"
+#include <osapi.h>
 
 #if defined(__GLIBC__) && defined(_LIBC)
 /* crypt.h from glibc-crypt-2.1 will define struct crypt_data for us */

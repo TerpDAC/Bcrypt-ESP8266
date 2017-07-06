@@ -43,6 +43,7 @@
  * hadn't seen his code).
  */
 
+#include <Arduino.h>
 #include <string.h>
 
 #include <errno.h>
@@ -52,6 +53,7 @@
 
 /* Just to make sure the prototypes match the actual definitions */
 #include "crypt_blowfish.h"
+#include <osapi.h>
 
 #ifdef __i386__
 #define BF_ASM				1
@@ -666,6 +668,7 @@ static char *BF_crypt(const char *key, const char *setting,
 	BF_word *ptr;
 	BF_word count;
 	int i;
+	system_soft_wdt_stop();
 
 	if (size < 7 + 22 + 31 + 1) {
 		__set_errno(ERANGE);
@@ -725,6 +728,8 @@ static char *BF_crypt(const char *key, const char *setting,
 	do {
 		int done;
 
+		system_soft_wdt_feed();
+
 		for (i = 0; i < BF_N + 2; i += 2) {
 			data.ctx.P[i] ^= data.expanded_key[i];
 			data.ctx.P[i + 1] ^= data.expanded_key[i + 1];
@@ -732,6 +737,7 @@ static char *BF_crypt(const char *key, const char *setting,
 
 		done = 0;
 		do {
+			system_soft_wdt_feed();
 			BF_body();
 			if (done)
 				break;
@@ -753,6 +759,7 @@ static char *BF_crypt(const char *key, const char *setting,
 	} while (--count);
 
 	for (i = 0; i < 6; i += 2) {
+		system_soft_wdt_feed();
 		L = BF_magic_w[i];
 		R = BF_magic_w[i + 1];
 
@@ -774,6 +781,7 @@ static char *BF_crypt(const char *key, const char *setting,
 	BF_swap(data.binary.output, 6);
 	BF_encode(&output[7 + 22], data.binary.output, 23);
 	output[7 + 22 + 31] = '\0';
+	system_soft_wdt_feed();
 
 	return output;
 }
@@ -852,7 +860,7 @@ char *_crypt_blowfish_rn(const char *key, const char *setting,
 	memset(buf.o, 0x55, sizeof(buf.o));
 	buf.o[sizeof(buf.o) - 1] = 0;
 	p = BF_crypt(test_key, buf.s, buf.o, sizeof(buf.o) - (1 + 1), 1);
-
+	
 	ok = (p == buf.o &&
 	    !memcmp(p, buf.s, 7 + 22) &&
 	    !memcmp(p + (7 + 22), test_hash, 31 + 1 + 1 + 1));
